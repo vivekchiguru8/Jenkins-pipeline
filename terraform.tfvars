@@ -1,0 +1,5 @@
+gcp_project_id = "project-8f3b3c8e-4647-4878-8b5"
+region         = "us-central1"
+zone           = "us-central1-a"
+vm-name        = "vm-with-2nic"
+machine-type   = "e2-medium"
