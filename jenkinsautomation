@@ -1,0 +1,53 @@
+Setup - Run these on your GCP console/terminal
+
+1. Give your SA the roles it needs
+
+1. PROJECT_ID="project-8f3b3c8e-4647-4878-8b5"
+SA_EMAIL="github-terraform@${PROJECT_ID}.iam.gserviceaccount.com"
+
+2. gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:${SA_EMAIL}" \
+  --role="roles/compute.admin"
+
+3. gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:${SA_EMAIL}" \
+  --role="roles/iam.serviceAccountUser"
+
+4. gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:${SA_EMAIL}" \
+  --role="roles/storage.admin"
+
+
+2. Attach the SA to your Jenkins VM
+
+
+Replace jenkins and us-central1-a with your VM name + zone:bash
+
+
+
+1. gcloud compute instances stop jenkins --zone=us-central1-a
+
+2. gcloud compute instances set-service-account jenkins \
+  --zone=us-central1-a \
+  --service-account=${SA_EMAIL} \
+  --scopes=https://www.googleapis.com/auth/cloud-platform
+
+3. gcloud compute instances start jenkins --zone=us-central1-a
+
+
+
+
+
+3. Verify from inside the Jenkins VM
+SSH into the VM and run:
+
+gcloud auth list
+
+
+You should see github-terraform@project-8f3b3c8e-4647-4878-8b5.iam.gserviceaccount.com as ACTIVE.
+
+
+
+
+
+
